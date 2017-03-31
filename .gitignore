@@ -89,3 +89,5 @@ ENV/
 .ropeproject
 virtenv/
 .idea/
+*.7z
+lesson02.py
