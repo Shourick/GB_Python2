@@ -24,15 +24,17 @@ def fill_buffer(event):
     if len(buffer) < 10:
         buffer.append(event.name)
     else:
-        keyboard.unhook(fill_buffer)
-        keyboard.hook(keyboard_event)
+        keyboard.unhook_all()
+        keyboard.on_press(keyboard_event)
 
 
 def keyboard_event(event):
     if not buffer and event.name == 's':
-        keyboard.unhook(keyboard_event)
-        keyboard.hook(fill_buffer)
+        buffer.append('s')
+        keyboard.unhook_all()
+        keyboard.on_press(fill_buffer)
     elif event.name == 'esc':
+        buffer.append(False)
         buffer[0] = False
 
 
@@ -43,7 +45,7 @@ PORT = find_port(HOST, range(9000, 10000), 'Connection is OK')
 if PORT:
     buffer = []
     response = []
-    keyboard.hook(keyboard_event)
+    keyboard.on_press(keyboard_event)
 
     while (not buffer or buffer[0]) and len(buffer) < 10:
         pass
@@ -53,7 +55,7 @@ if PORT:
         print('Клиент запущен')
         sock.send(bytes(' '.join(buffer), 'utf-8'))
         response.append(str(sock.recv(1024), 'utf-8'))
-
+        print(buffer)
         print(response)
 
         sock.close()
