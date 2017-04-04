@@ -38,6 +38,17 @@ def keyboard_event(event):
         buffer[0] = False
 
 
+def datetime_to_bytes(datetime_):
+    date_list = ['{:07b}'.format(datetime_.year % 100)]
+    date_list.append('{:04b}'.format(datetime_.month))
+    date_list.append('{:05b}'.format(datetime_.day))
+    _time = datetime_.time()
+    return ''.join(date_list),\
+           '{:024b}'.format(
+               _time.hour * 3600 + _time.minute * 60 + _time.second
+           )
+
+
 HOST = 'localhost'
 # PORT = 9999
 print('Try to connect to server')
