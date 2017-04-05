@@ -1,6 +1,7 @@
 
 import socket
 import keyboard
+import datetime
 
 __author__ = 'Наумов Александр Сергеевич'
 
@@ -31,6 +32,7 @@ def fill_buffer(event):
 def keyboard_event(event):
     if not buffer and event.name == 's':
         buffer.append('s')
+        buffer.append(datetime_to_bytes(datetime.datetime.now()))
         keyboard.unhook_all()
         keyboard.on_press(fill_buffer)
     elif event.name == 'esc':
@@ -64,6 +66,8 @@ if PORT:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.connect((HOST, PORT))
         print('Клиент запущен')
+        sock.send(b'zz')
+        sock.send()
         sock.send(bytes(' '.join(buffer), 'utf-8'))
         response.append(str(sock.recv(1024), 'utf-8'))
         print(buffer)
