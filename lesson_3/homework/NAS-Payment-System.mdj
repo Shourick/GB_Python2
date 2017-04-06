@@ -3470,6 +3470,38 @@
 						"$ref": "AAAAAAFbOYF1tjcmHzY="
 					},
 					"name": "Term",
+					"ownedElements": [
+						{
+							"_type": "ERDRelationship",
+							"_id": "AAAAAAFbRShDb/ZRxrQ=",
+							"_parent": {
+								"$ref": "AAAAAAFbRGZM+vVB+i8="
+							},
+							"end1": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAFbRShDb/ZSee4=",
+								"_parent": {
+									"$ref": "AAAAAAFbRShDb/ZRxrQ="
+								},
+								"reference": {
+									"$ref": "AAAAAAFbRGZM+vVB+i8="
+								},
+								"cardinality": "1"
+							},
+							"end2": {
+								"_type": "ERDRelationshipEnd",
+								"_id": "AAAAAAFbRShDb/ZTbJU=",
+								"_parent": {
+									"$ref": "AAAAAAFbRShDb/ZRxrQ="
+								},
+								"reference": {
+									"$ref": "AAAAAAFbOnTSRji9Kcg="
+								},
+								"cardinality": "1"
+							},
+							"identifying": true
+						}
+					],
 					"columns": [
 						{
 							"_type": "ERDColumn",
@@ -3720,6 +3752,14 @@
 							"identifying": true
 						}
 					]
+				},
+				{
+					"_type": "Hyperlink",
+					"_id": "AAAAAAFbRSdcAPY6BjY=",
+					"_parent": {
+						"$ref": "AAAAAAFbOYF1tjcmHzY="
+					},
+					"name": "Hyperlink1"
 				}
 			]
 		}
