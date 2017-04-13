@@ -91,3 +91,18 @@ virtenv/
 .idea/
 *.7z
 lesson02.py
+*.mp4
+lesson_4/homework/img/insert.gif
+lesson_4/homework/img/magic.gif
+lesson_4/homework/img/select.gif
+lesson_4/homework/img/update.gif
+lesson_4/homework/mainwindow.cpp
+lesson_4/homework/mainwindow.h
+lesson_4/homework/mainwindow.ui
+lesson_4/homework/QtWindows.py
+lesson_4/homework/app_opt.py
+lesson_4/homework/gui.py
+lesson_4/homework/gui_misc.py
+lesson_4/homework/img/application.ico
+lesson_4/homework/img/delete.gif
+lesson_4/Learning material/Lesson_4_GUI_Presentation.pdf
