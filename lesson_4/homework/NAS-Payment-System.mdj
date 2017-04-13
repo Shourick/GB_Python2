@@ -4137,7 +4137,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+byte13..16: company_id or employee_id",
+											"text": "+byte12..15: company_id or employee_id",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -4166,7 +4166,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "+byte17..24: amount of money",
+											"text": "+byte16..23: amount of money",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -5302,7 +5302,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFbTT9wQobfHYc="
 							},
-							"name": "byte13..16",
+							"name": "byte12..15",
 							"visibility": "public",
 							"type": "company_id or employee_id"
 						},
@@ -5312,7 +5312,7 @@
 							"_parent": {
 								"$ref": "AAAAAAFbTT9wQobfHYc="
 							},
-							"name": "byte17..24",
+							"name": "byte16..23",
 							"visibility": "public",
 							"type": "amount of money"
 						}
