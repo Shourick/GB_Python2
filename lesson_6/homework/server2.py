@@ -1,53 +1,10 @@
+
 import asyncio
 import logging
 import datetime
 from models import DbWorks, Transaction
 
 __author__ = 'Наумов Александр Сергеевич'
-
-
-class Transaction:
-    def __init__(self, byte_data):
-        self.byte_data = byte_data
-        self.bytes_to_ip()
-        self.bytes_to_datetime()
-        self.bytes_to_id()
-        self.bytes_to_operation_type()
-        self.bytes_to_reference_id()
-        self.amount = None
-
-    def bytes_to_ip(self):
-        self.client_ip = '.'.join((str(byte) for byte in self.byte_data[:2]))
-
-    def bytes_to_datetime(self):
-        _year = (self.byte_data[2] >> 1) + \
-                datetime.date.today().year // 100 * 100
-        _month = (int.from_bytes(self.byte_data[2:4], 'big') & 0x1E0) >> 5
-        _day = int.from_bytes(self.byte_data[4:6], 'big') & 0x1F
-        _seconds = int.from_bytes(self.byte_data[4:6], 'big')
-        m, s = divmod(_seconds, 60)
-        h, m = divmod(m, 60)
-        self.date_time = datetime.datetime(_year, _month, _day, h, m, s)
-
-    def bytes_to_id(self):
-        self.id = int.from_bytes(self.byte_data[7:11], 'big')
-
-    def bytes_to_operation_type(self):
-        self.operation = self.byte_data[11]
-
-    def bytes_to_reference_id(self):
-        self.reference_id = int.from_bytes(self.byte_data[12:15], 'big')
-
-
-class MonetaryTransaction(Transaction):
-    def __init__(self, byte_data):
-        super().__init__(byte_data)
-        self.bytes_to_amount()
-
-    def bytes_to_amount(self):
-        self.amount = (
-            int.from_bytes(self.byte_data[14:], 'big') & 0x3FFFFF
-        ) / 100
 
 
 class Server:
@@ -74,6 +31,7 @@ class Server:
     async def handle(self, reader, writer):
         peer_name = writer.get_extra_info('peername')
         logging.info('Accepted connection from {}'.format(peer_name))
+        _flag = 'data'
         while True:   # not reader.at_eof():
             self.data = await reader.read(1024)
             if self.data:
@@ -91,6 +49,16 @@ class Server:
                             DbWorks().select_last_transaction(_client_ip)
                             .to_bytes(4, 'big')
                         )
+                    elif self.data[:13] == b'file transfer' or _flag == 'file':
+                        _flag = 'file'
+                        name_length = self.data[13]
+                        file_name = self.data[14:14+name_length]
+                        self.data = self.data[14+name_length:]
+                        with open(file_name, 'wb') as f:
+                            f.write(self.data)
+                            while not reader.at_eof():
+                                self.data = await reader.read(1024)
+                                f.write(self.data)
                     else:
                         print('Неизвестный запрос')
                 else:
