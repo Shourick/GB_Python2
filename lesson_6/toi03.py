@@ -1,30 +1,23 @@
 import sys
-import time
 import threading
 import os
+from queue import Queue, Empty
 
 
-def input_with_timeout(prompt, q):
-    mutex.acqurie()
+def input_enqueued(prompt, q):
     print(prompt, end='', flush=True)
-    q[0] = sys.stdin.readline().rstrip('\n')
-    print(q[0], flush=True)
+    q.put(sys.stdin.readline().rstrip('\n'))
 
-user_input = [None]
-result = []
-mutex = threading.Lock()
-for _ in range(15):
-    user_input = [None]
-    task_input = threading.Thread(target=input_with_timeout, args=('Input something: ', user_input), daemon=True)
-    task_input.start()
-    mutex.release()
-    time.sleep(2)
-    result.append(user_input[0])
-    # print('\nYour answer is: {}'.format(str(user_input[0])))
-    if task_input.is_alive():
-        task_input._reset_internal_locks(False)
-        task_input._stop()
-        time.sleep(0.2)
-        # task_input.join()
-    os.system('cls')
-print(result)
+if __name__ == '__main__':
+    q = Queue()
+    result = []
+    for _ in range(5):
+        task = threading.Thread(target=input_enqueued, args=('Input something: ', q), daemon=True)
+        task.start()
+        try:
+            user_input = q.get(timeout=3)
+        except Empty:
+            user_input = None
+        result.append(user_input)
+        os.system('cls')
+    print(result)
